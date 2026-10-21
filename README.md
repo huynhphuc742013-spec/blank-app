@@ -1,25 +1,44 @@
-# 🎈 Blank app template
+import streamlit as st
+import random
 
-A simple Streamlit app template for you to modify!
+st.title("🎮 Trò Chơi Oản Tù Tì")
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+# Biểu tượng cảm xúc minh họa
+emoji_map = {
+    "Búa": "✊ Búa",
+    "Kéo": "✌️ Kéo",
+    "Bao": "✋ Bao"
+}
 
-### How to run it on your own machine
+choices = ["Búa", "Kéo", "Bao"]
 
-Prerequisite: install `uv` if you don't already have it.
+# Tạo 3 cột tương ứng với 3 nút bấm
+col1, col2, col3 = st.columns(3)
 
-```
-$ curl -LsSf https://astral.sh/uv/install.sh | sh
-```
+user_choice = None
+if col1.button("✊ Búa"):
+    user_choice = "Búa"
+if col2.button("✌️ Kéo"):
+    user_choice = "Kéo"
+if col3.button("✋ Bao"):
+    user_choice = "Bao"
 
-1. Sync the dependencies
+# Xử lý khi người dùng bấm chọn
+if user_choice:
+    computer_choice = random.choice(choices)
 
-   ```
-   $ uv sync
-   ```
+    st.write(f"**Bạn chọn:** {emoji_map[user_choice]}")
+    st.write(f"**Máy tính chọn:** {emoji_map[computer_choice]}")
 
-2. Run the app
+    st.markdown("---")
 
-   ```
-   $ uv run streamlit run streamlit_app.py
-   ```
+    # So sánh kết quả
+    if user_choice == computer_choice:
+        st.warning("🤝 Kết quả: Hòa nhau!")
+    elif (user_choice == "Búa" and computer_choice == "Kéo") or \
+         (user_choice == "Kéo" and computer_choice == "Bao") or \
+         (user_choice == "Bao" and computer_choice == "Búa"):
+        st.success("🎉 Kết quả: Bạn đã chiến thắng!")
+        st.balloons()  # Bắn bóng bay mừng chiến thắng
+    else:
+        st.error("🤖 Kết quả: Máy tính thắng rồi!")
